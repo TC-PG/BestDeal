@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="jumbotron jumbotron-fluid">
+         <div class="container  d-flex justify-content-center">
+              <div>
+                <h5>Hello, {{session.user}}</h5>
+                <a href="/">返回</a>
+                <span>&#124;</span>
+                <a href="/logout">登出</a>
+              </div>
+         </div>
+          </div>
+        </div>
+        <div class="container d-flex justify-content-center">
+            <table id="favoriteTable">
+               <tbody>
+                    {% for favorite in favorites %}
+                        <tr>
+                            <td>{{ favorite["id"] }}</td>
+                            <td><img src='{{ favorite["image"] }}'></td>
+                            <td><a href='{{ favorite["url"] }}' target="_blank">{{ favorite["productName"] }}</a></td>
+                            <td>{{ favorite["price"] }}</td>
+                            <td><button  class="btn btn-primary deleteBtn">刪除</button></td>
+                         </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endblock %}

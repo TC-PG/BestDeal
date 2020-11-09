@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container  d-flex justify-content-center">
+        {% if not session.user %}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#aboutModal" style="margin-left:5px">
+          關於查價網
+        </button>
+        <!-- modal -->
+        <div class="modal fade " id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+          <div class="modal-dialog  modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="aboutModalLabel">查價網</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <h6>About:</h6>
+                <p>This website is the final project from <strong>Harvard CS50: Introduction to Computer Science.</strong></p>
+                <p>A web crawling website helping you to find the best deal!</p>
+                <p>Currently, it supports two E-commerce websites for Taiwan users.</p>
+                <h6>Tech Stack:</h6>
+                <ul>
+                  <li>Front-End: Html, Css, JavaScript, JQuery, Bootstrap</li>
+                  <li>Back-End: Python, Flask, Selenium</li>
+                  <li>DataBase: SQLITE3</li>
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end modal -->
+          <!--login popup form-->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginForm" data-whatever="@mdo" style="margin-left:5px">登入</button>
+          <div class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">登入</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="login" action="/login" method="post">
+                    <div class="form-group">
+                      <label for="account" class="col-form-label" >帳號:</label>
+                      <input type="text" class="form-control" id="loginAccount" name="account" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="password" class="col-form-label">密碼:</label>
+                      <input type="password" class="form-control" id="loginPassword"  name = "password" required>
+                    </div>
+                    <input id="loginSubmitBtn" type="submit" class="btn btn-primary" value="送出">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end login popo form-->
+          <!--signup popup form-->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signup" data-whatever="@mdo" style="margin-left:5px">註冊</button>
+          <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">註冊</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <form id="signup" action="/signup" method="post">
+                    <div class="form-group">
+                      <label for="account" class="col-form-label" >帳號:</label>
+                      <input type="text" class="form-control" id="signupAccount" name="account" required>
+                    </div>
+                    <div class="form-group">
+                      <label for="password" class="col-form-label">密碼:</label>
+                      <input type="password" class="form-control" id="signupPassword"  name = "password" required>
+                    </div>
+                    <input id="signupSubmitBtn" type="submit" class="btn btn-primary" value="送出">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--end signup popo form-->
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              <ul class=flashes>
+              {% for message in messages %}
+                <li style="color:red;"><strong>{{ message }}</strong></li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+        {% else %}
+          <div>
+            <h5>Hello, {{session.user}}</h5>
+            <a href="/favorites">查看儲存商品</a>
+            <span>&#124;</span>
+            <a href="/logout">登出</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="container d-flex justify-content-center">
+        <div class="search">
+            <div class="input-group mb-3" style="width:300px">
+              <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">E-Commerce</label>
+              </div>
+              <select class="e-commerce" id="inputGroupSelect01">
+                <option value="Shopee">Shopee</option>
+                <option value="PCHome">PCHome</option>
+              </select>
+            </div>
+            <hr>
+            <input type = "text" name = "search" id = "search" placeholder="請輸入商品名稱" autofocus  class="form-control">
+            <input type ="button" id="btn" value="搜尋"  class="btn btn-info" style="margin-top:10px;" >
+            <div id="loader" ></div>
+        </div>
+    </div>
+
+        <div class="tb container d-flex justify-content-center">
+            <table id="productTable">
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+
+
+{% endblock %}

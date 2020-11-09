@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <input type = "text" name = "search" id = "search" placeholder="請輸入商品名稱" autofocus>
+    <input type ="button" id="btn" value="搜尋">
+    <table>
+        <thead>
+            <tr>
+                <th>儲存</th>
+                <th>圖片</th>
+                <th>商品名稱</th>
+                <th>價錢</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products%}
+            <tr>
+                <td>v</td>
+                <td><img src={{product.src}}></td>
+                <td><a href={{product.url}}>product.name</a></td>
+                <td>product.price</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
