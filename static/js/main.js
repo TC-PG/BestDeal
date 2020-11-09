@@ -118,8 +118,7 @@ $("table").on("click", ".save", (e) =>{
     })
     .then(response => alert(`${response['message']}`))
     .catch(error => {
-        alert(error)
-        window.location.href = "/";
+        alert(error);
     });
 
 });

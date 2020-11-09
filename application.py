@@ -141,10 +141,10 @@ def search():
         with webdriver.Chrome("./chromedriver", chrome_options=chrome_options) as driver:
             print('begin web crawling')
             driver.get("https://shopee.tw/search?keyword=" + name)
-            # sleep 1.5s to for page loading
-            time.sleep(1.5)
+            # sleep 3s for page loading
+            time.sleep(3)
           # Scroll few times to load all items
-            for x in range(10):
+            for x in range(5):
                 driver.execute_script("window.scrollBy(0,300)")
                 time.sleep(0.1)
 
