@@ -9,6 +9,7 @@ from flask import Flask, render_template, redirect, jsonify, request, flash, ses
 from flask_session import Session
 from tempfile import mkdtemp
 from flask_bcrypt import Bcrypt
+from helpers import login_required
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -199,12 +200,9 @@ def search():
 
 
 @app.route("/save", methods=["post"])
+@login_required
 def save():
     data = request.get_json()
-
-    if not session:
-        errorMessage["message"] = '請先登入'
-        return jsonify(errorMessage), 500
 
     if data:
         db.execute("insert into favorites(image, productName, price, url, user_id) values(:image, :productName, :price, :url, :user_id)", image = data['src'], productName = data['productName'], price = data['price'], url = data['url'], user_id= session['user_id'])
@@ -238,11 +236,8 @@ def getFavorites():
     return render_template("favorites.html", favorites = items)
 
 @app.route("/delete", methods=["post"])
+@login_required
 def delete():
-    if not session:
-        errorMessage["message"] = "請先登入"
-        return jsonify(errorMessage),500
-
     id = request.get_json()
 
     if not id:
